@@ -1,0 +1,28 @@
+# Source files and development configurations
+src/
+tests/
+scripts/
+.github/
+.vscode/
+.idea/
+.next/
+out/
+build/
+coverage/
+
+# Config files
+tsconfig*.json
+eslint.config.*
+next.config.*
+next-env.d.ts
+
+# Markdown documentation not needed in package
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+CHANGELOG.md
+
+# Secrets and local configurations
+.npmrc
+.env*
+*.log

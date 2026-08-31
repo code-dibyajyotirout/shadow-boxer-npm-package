@@ -1,0 +1,93 @@
+{
+  "name": "shadow-boxer",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Browser-native AI WebAssembly boxing physics engine and real-time biomechanics tracker.",
+  "license": "AGPL-3.0-only",
+  "author": "Shadow Boxer Contributors",
+  "homepage": "https://github.com/code-dibyajyotirout/shadow-boxer-npm-package#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/code-dibyajyotirout/shadow-boxer-npm-package.git"
+  },
+  "bugs": {
+    "url": "https://github.com/code-dibyajyotirout/shadow-boxer-npm-package/issues"
+  },
+  "keywords": [
+    "boxing",
+    "ai-fitness",
+    "mediapipe",
+    "webassembly",
+    "biomechanics",
+    "computer-vision",
+    "pose-estimation",
+    "signal-processing",
+    "one-euro-filter",
+    "web-audio",
+    "react",
+    "nextjs",
+    "shadow-boxing"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js",
+      "require": "./dist/hooks/index.js",
+      "default": "./dist/hooks/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js",
+      "require": "./dist/components/index.js",
+      "default": "./dist/components/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.js",
+      "default": "./dist/utils/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build:lib": "node scripts/build-lib.js",
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "node node_modules/typescript/lib/tsc.js --noEmit",
+    "lint": "node node_modules/typescript/lib/tsc.js --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build:lib",
+    "clean": "rm -rf dist .next out coverage"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.35"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

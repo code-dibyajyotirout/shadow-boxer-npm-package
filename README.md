@@ -1,28 +1,28 @@
-# shadow-boxer
+# @animatrous/shadow-boxer
 
 > **Browser-Native AI WebAssembly Boxing Physics Engine & Real-Time Biomechanics Tracker**
 
-[![npm version](https://img.shields.io/npm/v/shadow-boxer.svg)](https://www.npmjs.com/package/shadow-boxer)
+[![npm version](https://img.shields.io/npm/v/@animatrous/shadow-boxer.svg)](https://www.npmjs.com/package/@animatrous/shadow-boxer)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18%2B-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 
-`shadow-boxer` is a modular, high-performance computer vision and biomechanics SDK for browser-based fitness tracking, combat sports telemetry, and motion analysis. It computes 3D punch velocity in $m/s$, instantaneous acceleration in $m/s^2$, joint extension ratios, and strike archetypes in real time at 60 FPS with zero server-side computation.
+`@animatrous/shadow-boxer` is a modular, high-performance computer vision and biomechanics SDK for browser-based fitness tracking, combat sports telemetry, and motion analysis. It computes 3D punch velocity in $m/s$, instantaneous acceleration in $m/s^2$, joint extension ratios, and strike archetypes in real time at 60 FPS with zero server-side computation.
 
 ---
 
 ## Installation
 
 ```bash
-npm install shadow-boxer
+npm install @animatrous/shadow-boxer
 ```
 
 ```bash
-yarn add shadow-boxer
+yarn add @animatrous/shadow-boxer
 ```
 
 ```bash
-pnpm add shadow-boxer
+pnpm add @animatrous/shadow-boxer
 ```
 
 ---
@@ -34,15 +34,15 @@ pnpm add shadow-boxer
 Import the default cyberpunk HUD styles in your application root:
 
 ```typescript
-import "shadow-boxer/style.css";
+import "@animatrous/shadow-boxer/style.css";
 ```
 
 ### 2. Full React Component Integration
 
 ```tsx
 import React from "react";
-import { ShadowBoxer } from "shadow-boxer";
-import "shadow-boxer/style.css";
+import { ShadowBoxer } from "@animatrous/shadow-boxer";
+import "@animatrous/shadow-boxer/style.css";
 
 export default function BoxingPage() {
   return (
@@ -66,11 +66,11 @@ export default function BoxingPage() {
 
 ### 3. Headless React Hook Integration (`useShadowBoxer`)
 
-Build custom UI or 3D viewports while letting `shadow-boxer` handle kinematics, filtering, and classification:
+Build custom UI or 3D viewports while letting `@animatrous/shadow-boxer` handle kinematics, filtering, and classification:
 
 ```tsx
 import React from "react";
-import { useShadowBoxer, PoseOverlay, MetricsDisplay } from "shadow-boxer";
+import { useShadowBoxer, PoseOverlay, MetricsDisplay } from "@animatrous/shadow-boxer";
 
 export function CustomBoxingTracker() {
   const { state, start, stop, resetMetrics, processPose } = useShadowBoxer({
@@ -101,23 +101,23 @@ export function CustomBoxingTracker() {
 
 ## Subpath Imports
 
-`shadow-boxer` provides modular exports for minimal bundle footprints:
+`@animatrous/shadow-boxer` provides modular exports for minimal bundle footprints:
 
 ```typescript
 // Core Root
-import { ShadowBoxer, useShadowBoxer, BiomechanicsEngine, OneEuroFilter } from "shadow-boxer";
+import { ShadowBoxer, useShadowBoxer, BiomechanicsEngine, OneEuroFilter } from "@animatrous/shadow-boxer";
 
 // Dedicated Hooks
-import { useShadowBoxer, useAudioFX } from "shadow-boxer/hooks";
+import { useShadowBoxer, useAudioFX } from "@animatrous/shadow-boxer/hooks";
 
 // Dedicated Components
-import { ShadowBoxer, PoseOverlay, MetricsDisplay } from "shadow-boxer/components";
+import { ShadowBoxer, PoseOverlay, MetricsDisplay } from "@animatrous/shadow-boxer/components";
 
 // Dedicated Utilities
-import { BiomechanicsEngine, OneEuroFilter, StrikeClassifier, AudioSynthesizer } from "shadow-boxer/utils";
+import { BiomechanicsEngine, OneEuroFilter, StrikeClassifier, AudioSynthesizer } from "@animatrous/shadow-boxer/utils";
 
 // Dedicated Types
-import type { Landmark3D, PunchMetrics, StrikeEvent, StanceStatus } from "shadow-boxer/types";
+import type { Landmark3D, PunchMetrics, StrikeEvent, StanceStatus } from "@animatrous/shadow-boxer/types";
 ```
 
 ---
@@ -140,7 +140,7 @@ Static kinematic calculator for 3D coordinates:
 Adaptive low-pass filter algorithm suppressing coordinate jitter without adding latency during rapid movement:
 
 ```typescript
-import { OneEuroFilter } from "shadow-boxer/utils";
+import { OneEuroFilter } from "@animatrous/shadow-boxer/utils";
 
 const filter = new OneEuroFilter(60, 1.5, 0.007, 1.0);
 const smoothedX = filter.filter(rawX, performance.now());
@@ -160,7 +160,7 @@ Identifies five strike and defense archetypes:
 
 ## Security & Privacy Model
 
-`shadow-boxer` executes all landmark filters, mathematical calculations, and classification loops entirely inside the client-side JavaScript runtime. No camera frames, biometric measurements, or telemetry data are stored or transmitted across network sockets.
+`@animatrous/shadow-boxer` executes all landmark filters, mathematical calculations, and classification loops entirely inside the client-side JavaScript runtime. No camera frames, biometric measurements, or telemetry data are stored or transmitted across network sockets.
 
 ---
 

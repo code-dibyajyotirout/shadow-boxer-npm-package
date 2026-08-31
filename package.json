@@ -1,5 +1,5 @@
 {
-  "name": "shadow-boxer",
+  "name": "@animatrous/shadow-boxer",
   "version": "0.1.0",
   "type": "module",
   "description": "Browser-native AI WebAssembly boxing physics engine and real-time biomechanics tracker.",

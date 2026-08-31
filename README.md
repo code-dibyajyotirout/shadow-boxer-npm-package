@@ -3,6 +3,8 @@
 > **Browser-Native AI WebAssembly Boxing Physics Engine & Real-Time Biomechanics Tracker**
 
 [![npm version](https://img.shields.io/npm/v/@animatrous/shadow-boxer.svg)](https://www.npmjs.com/package/@animatrous/shadow-boxer)
+[![Full-Stack Repo](https://img.shields.io/badge/GitHub-FullStack_Platform-00f0ff?logo=github)](https://github.com/code-dibyajyotirout/shadow-boxer-fullstack)
+[![Frontend App](https://img.shields.io/badge/GitHub-Frontend_App-blue?logo=github)](https://github.com/code-dibyajyotirout/shadow-boxer)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18%2B-61DAFB?logo=react&logoColor=black)](https://react.dev/)

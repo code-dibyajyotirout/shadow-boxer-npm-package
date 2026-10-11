@@ -1,6 +1,6 @@
 {
   "name": "@animatrous/shadow-boxer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Browser-native AI WebAssembly boxing physics engine and real-time biomechanics tracker.",
   "license": "AGPL-3.0-only",

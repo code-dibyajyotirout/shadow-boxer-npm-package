@@ -149,22 +149,34 @@ export function useShadowBoxer(options: UseShadowBoxerOptions = {}) {
 
   /**
    * Main pose processing routine
+   * @param rawLandmarks Screen-space normalized landmarks (0 to 1) for visual alignment & stance checks
+   * @param timestamp Optional timestamp in milliseconds (defaults to Date.now())
+   * @param worldLandmarks Optional MediaPipe poseWorldLandmarks in real-world metric meters (hip-relative).
+   *                       When provided, velocity & kinematics are computed directly in true m/s invariant to camera distance.
    */
   const processPose = useCallback(
-    (rawLandmarks: Landmark3D[], timestamp: number = Date.now()) => {
+    (
+      rawLandmarks: Landmark3D[],
+      timestamp: number = Date.now(),
+      worldLandmarks?: Landmark3D[]
+    ) => {
       if (!rawLandmarks || rawLandmarks.length < 33) return;
 
       const dtSeconds = prevTime.current ? Math.max(0.001, (timestamp - prevTime.current) / 1000.0) : 0.016;
       prevTime.current = timestamp;
 
+      // Prefer metric worldLandmarks for camera-invariant kinematics if available
+      const hasWorld = !!(worldLandmarks && worldLandmarks.length >= 33);
+      const kinematicSource = hasWorld ? worldLandmarks! : rawLandmarks;
+
       // Filter critical keypoints
-      const nose = noseFilter.current.filter(rawLandmarks[0], timestamp);
-      const leftShoulder = rawLandmarks[11];
-      const rightShoulder = rawLandmarks[12];
-      const leftElbow = rawLandmarks[13];
-      const rightElbow = rawLandmarks[14];
-      const leftWrist = leftWristFilter.current.filter(rawLandmarks[15], timestamp);
-      const rightWrist = rightWristFilter.current.filter(rawLandmarks[16], timestamp);
+      const nose = noseFilter.current.filter(kinematicSource[0], timestamp);
+      const leftShoulder = kinematicSource[11];
+      const rightShoulder = kinematicSource[12];
+      const leftElbow = kinematicSource[13];
+      const rightElbow = kinematicSource[14];
+      const leftWrist = leftWristFilter.current.filter(kinematicSource[15], timestamp);
+      const rightWrist = rightWristFilter.current.filter(kinematicSource[16], timestamp);
 
       // Evaluate full body stance
       const stance = BiomechanicsEngine.evaluateStance(rawLandmarks);
@@ -180,7 +192,8 @@ export function useShadowBoxer(options: UseShadowBoxerOptions = {}) {
           leftShoulder,
           leftElbow,
           prevLeftSpeed.current,
-          dtSeconds
+          dtSeconds,
+          hasWorld
         );
         prevLeftSpeed.current = leftMetrics.velocity;
         leftClassified = StrikeClassifier.classifyStrike(
@@ -203,7 +216,8 @@ export function useShadowBoxer(options: UseShadowBoxerOptions = {}) {
           rightShoulder,
           rightElbow,
           prevRightSpeed.current,
-          dtSeconds
+          dtSeconds,
+          hasWorld
         );
         prevRightSpeed.current = rightMetrics.velocity;
         rightClassified = StrikeClassifier.classifyStrike(

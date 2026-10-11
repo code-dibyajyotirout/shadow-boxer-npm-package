@@ -38,6 +38,17 @@ test("BiomechanicsEngine Test Suite", async (t) => {
     const accel = BiomechanicsEngine.computeAcceleration(2.0, 10.0, dt);
     // (10.0 - 2.0) / 0.05 = 160 m/s^2
     assert.ok(Math.abs(accel - 160.0) < 0.001, `Expected 160 m/s^2, got ${accel}`);
+
+    // Metric worldLandmarks mode (scaleFactor = 1.0, hip-relative real-world meters)
+    const worldVelocity = BiomechanicsEngine.computeVelocity(pPrev, pCurr, dt, true);
+    // (0.2 * 1.0) / 0.05 = 4.0 m/s
+    assert.ok(Math.abs(worldVelocity - 4.0) < 0.001, `Expected 4.0 m/s in world coordinates, got ${worldVelocity}`);
+
+    // Metric worldLandmarks punch metrics evaluation
+    const shoulder = { x: 0.1, y: 0.2, z: -0.2 };
+    const elbow = { x: 0.1, y: 0.2, z: 0.0 };
+    const worldMetrics = BiomechanicsEngine.computePunchMetrics(pPrev, pCurr, shoulder, elbow, 0, dt, true);
+    assert.ok(Math.abs(worldMetrics.velocity - 4.0) < 0.001, `Expected 4.0 m/s in punch metrics, got ${worldMetrics.velocity}`);
   });
 
   await t.test("evaluates full stance and guard posture", () => {

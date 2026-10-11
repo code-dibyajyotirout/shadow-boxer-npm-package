@@ -10,6 +10,7 @@ export interface Landmark3D {
 }
 
 export type PoseLandmarks = Landmark3D[];
+export type PoseWorldLandmarks = Landmark3D[];
 
 export type StrikeType = "JAB/CROSS" | "HOOK" | "UPPERCUT" | "SLIP" | "DUCK";
 

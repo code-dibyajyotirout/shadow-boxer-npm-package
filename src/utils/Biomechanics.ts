@@ -41,13 +41,35 @@ export class BiomechanicsEngine {
   }
 
   /**
-   * Computes punch speed in meters per second (m/s) given 3D displacement and elapsed time
+   * Computes punch speed in meters per second (m/s) given 3D displacement and elapsed time.
+   * Supports both metric world coordinates (MediaPipe poseWorldLandmarks in real-world meters)
+   * and legacy normalized image coordinates with a calibrated distance scaleFactor.
+   * 
+   * When optionsOrScale is true, treats points as metric world landmarks (effective scale = 1.0).
+   * When optionsOrScale is a number, overrides the scale factor.
+   * When omitted or false, falls back to scaleFactor (default: 2.5).
    */
-  public static computeVelocity(pPrev: Landmark3D, pCurr: Landmark3D, dtSeconds: number, scaleFactor: number = 2.5): number {
+  public static computeVelocity(
+    pPrev: Landmark3D,
+    pCurr: Landmark3D,
+    dtSeconds: number,
+    optionsOrScale?: boolean | number,
+    scaleFactor: number = 2.5
+  ): number {
     if (dtSeconds <= 0) return 0;
     const rawDist = this.distance3D(pPrev, pCurr);
-    // Convert normalized webcam units to approximate metric scale (average human reach)
-    return (rawDist * scaleFactor) / dtSeconds;
+
+    let isWorld = false;
+    let scale = scaleFactor;
+
+    if (typeof optionsOrScale === "boolean") {
+      isWorld = optionsOrScale;
+    } else if (typeof optionsOrScale === "number") {
+      scale = optionsOrScale;
+    }
+
+    const effectiveScale = isWorld ? 1.0 : scale;
+    return (rawDist * effectiveScale) / dtSeconds;
   }
 
   /**
@@ -105,9 +127,10 @@ export class BiomechanicsEngine {
     shoulder: Landmark3D,
     elbow: Landmark3D,
     vPrev: number,
-    dtSeconds: number
+    dtSeconds: number,
+    isWorldCoordinates: boolean = false
   ): PunchMetrics {
-    const velocity = this.computeVelocity(pPrev, pCurr, dtSeconds);
+    const velocity = this.computeVelocity(pPrev, pCurr, dtSeconds, isWorldCoordinates);
     const acceleration = Math.max(0, this.computeAcceleration(vPrev, velocity, dtSeconds));
     const extension = this.computeExtensionRatio(shoulder, elbow, pCurr);
     const { alignmentScore, quality } = this.evaluateTrajectory(shoulder, elbow, pCurr, velocity);

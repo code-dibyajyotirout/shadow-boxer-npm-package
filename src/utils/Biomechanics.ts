@@ -42,30 +42,36 @@ export class BiomechanicsEngine {
 
   /**
    * Computes punch speed in meters per second (m/s) given 3D displacement and elapsed time.
-   * Supports both metric world coordinates (MediaPipe poseWorldLandmarks in real-world meters)
-   * and legacy normalized image coordinates with a calibrated distance scaleFactor.
+   * Defaults to metric world coordinates (MediaPipe poseWorldLandmarks in real-world meters relative to pelvis),
+   * providing camera-distance-invariant strike extension velocity.
    * 
-   * When optionsOrScale is true, treats points as metric world landmarks (effective scale = 1.0).
-   * When optionsOrScale is a number, overrides the scale factor.
-   * When omitted or false, falls back to scaleFactor (default: 2.5).
+   * Note on pelvis-relative coordinates:
+   * MediaPipe worldLandmarks are anchored to the pelvis/hip midpoint (origin at hips).
+   * The derived velocity measures wrist extension and rotational snap relative to the torso,
+   * isolating pure striking technique without whole-body translational stepping artifacts.
+   * 
+   * When optionsOrScale is true or omitted (default), treats points as metric world landmarks (effective scale = 1.0).
+   * When optionsOrScale is false, falls back to legacy calibrated scaleFactor (default: 2.5).
+   * When optionsOrScale is a number, overrides the scale factor directly.
    */
   public static computeVelocity(
     pPrev: Landmark3D,
     pCurr: Landmark3D,
     dtSeconds: number,
-    optionsOrScale?: boolean | number,
+    optionsOrScale: boolean | number = true,
     scaleFactor: number = 2.5
   ): number {
     if (dtSeconds <= 0) return 0;
     const rawDist = this.distance3D(pPrev, pCurr);
 
-    let isWorld = false;
+    let isWorld = true;
     let scale = scaleFactor;
 
     if (typeof optionsOrScale === "boolean") {
       isWorld = optionsOrScale;
     } else if (typeof optionsOrScale === "number") {
       scale = optionsOrScale;
+      isWorld = false;
     }
 
     const effectiveScale = isWorld ? 1.0 : scale;
@@ -128,7 +134,7 @@ export class BiomechanicsEngine {
     elbow: Landmark3D,
     vPrev: number,
     dtSeconds: number,
-    isWorldCoordinates: boolean = false
+    isWorldCoordinates: boolean = true
   ): PunchMetrics {
     const velocity = this.computeVelocity(pPrev, pCurr, dtSeconds, isWorldCoordinates);
     const acceleration = Math.max(0, this.computeAcceleration(vPrev, velocity, dtSeconds));

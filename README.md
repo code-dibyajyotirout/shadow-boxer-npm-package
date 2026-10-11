@@ -131,8 +131,9 @@ import type { Landmark3D, PunchMetrics, StrikeEvent, StanceStatus } from "@anima
 Static kinematic calculator for 3D coordinates:
 
 - `distance3D(p1: Landmark3D, p2: Landmark3D): number`
-- `calculateAngle(a: Landmark3D, b: Landmark3D, c: Landmark3D): number`
-- `computeVelocity(pPrev: Landmark3D, pCurr: Landmark3D, dtSeconds: number, scaleFactor?: number): number`
+- `computeVelocity(pPrev: Landmark3D, pCurr: Landmark3D, dtSeconds: number, optionsOrScale?: boolean | number, scaleFactor?: number): number`
+  - Calculates strike extension velocity ($m/s$). Defaults to metric MediaPipe `worldLandmarks` ($scale = 1.0$) in a pelvis-relative frame, invariant to webcam distance. For normalized screen coordinates, pass `optionsOrScale = false` or a numeric scale factor.
+- `computePunchMetrics(pPrev, pCurr, shoulder, elbow, vPrev, dt, isWorldCoordinates?: boolean): PunchMetrics`
 - `computeAcceleration(vPrev: number, vCurr: number, dtSeconds: number): number`
 - `computeExtensionRatio(shoulder: Landmark3D, elbow: Landmark3D, wrist: Landmark3D): number`
 - `evaluateStance(landmarks: Landmark3D[]): StanceStatus`

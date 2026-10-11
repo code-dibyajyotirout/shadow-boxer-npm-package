@@ -1,6 +1,6 @@
 {
   "name": "@animatrous/shadow-boxer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Browser-native AI WebAssembly boxing physics engine and real-time biomechanics tracker.",
   "license": "AGPL-3.0-only",
@@ -74,7 +74,7 @@
     "test": "node --test tests/*.test.mjs",
     "typecheck": "node node_modules/typescript/lib/tsc.js --noEmit",
     "lint": "node node_modules/typescript/lib/tsc.js --noEmit",
-    "prepublishOnly": "npm run typecheck && npm run test && npm run build:lib",
+    "prepublishOnly": "npm run typecheck && npm run build:lib && npm run test",
     "clean": "rm -rf dist .next out coverage"
   },
   "peerDependencies": {

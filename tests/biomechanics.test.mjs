@@ -44,11 +44,18 @@ test("BiomechanicsEngine Test Suite", async (t) => {
     // (0.2 * 1.0) / 0.05 = 4.0 m/s
     assert.ok(Math.abs(worldVelocity - 4.0) < 0.001, `Expected 4.0 m/s in world coordinates, got ${worldVelocity}`);
 
+    // Default mode (optionsOrScale omitted) defaults to metric world coordinates (1.0)
+    const defaultVelocity = BiomechanicsEngine.computeVelocity(pPrev, pCurr, dt);
+    assert.ok(Math.abs(defaultVelocity - 4.0) < 0.001, `Expected default velocity to be 4.0 m/s, got ${defaultVelocity}`);
+
     // Metric worldLandmarks punch metrics evaluation
     const shoulder = { x: 0.1, y: 0.2, z: -0.2 };
     const elbow = { x: 0.1, y: 0.2, z: 0.0 };
     const worldMetrics = BiomechanicsEngine.computePunchMetrics(pPrev, pCurr, shoulder, elbow, 0, dt, true);
     assert.ok(Math.abs(worldMetrics.velocity - 4.0) < 0.001, `Expected 4.0 m/s in punch metrics, got ${worldMetrics.velocity}`);
+
+    const defaultMetrics = BiomechanicsEngine.computePunchMetrics(pPrev, pCurr, shoulder, elbow, 0, dt);
+    assert.ok(Math.abs(defaultMetrics.velocity - 4.0) < 0.001, `Expected default punch metrics to use metric coordinates, got ${defaultMetrics.velocity}`);
   });
 
   await t.test("evaluates full stance and guard posture", () => {
